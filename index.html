@@ -19,54 +19,43 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       font-family: 'Outfit', sans-serif;
       background: transparent;
       color: var(--dark);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
 
+    /* ── 16:9 shell — locks layout to viewport, never overflows ── */
     .shell {
-      flex: 1;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 2rem 2.5rem 0;
-      min-height: 100vh;
+      padding: 2vh 3vw 1.5vh;
+      overflow: hidden;
     }
 
-    .top-bar {
-      width: 100%;
-      max-width: 1100px;
-      margin-bottom: 1.2rem;
-    }
-
-    .top-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
+    /* ── Progress ── */
     .progress-wrap {
       width: 100%;
-      max-width: 1100px;
-      margin-bottom: 1.4rem;
+      flex-shrink: 0;
+      margin-bottom: 1.5vh;
     }
 
     .progress-meta {
       display: flex;
       justify-content: space-between;
-      font-size: 1rem;
+      font-size: 1.6vh;
       font-weight: 600;
       color: var(--dark);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6vh;
     }
 
     .progress-bar {
-      height: 8px;
+      height: 0.7vh;
       background: rgba(0,0,0,0.15);
       border-radius: 99px;
       overflow: hidden;
@@ -79,53 +68,54 @@
       transition: width 0.4s ease;
     }
 
-    /* Card */
+    /* ── Card — fills remaining space between progress and nav ── */
     .card {
       background: var(--white);
-      border-radius: 20px;
-      padding: 2.4rem 2.8rem 2rem;
+      border-radius: 1.5vh;
+      padding: 2.5vh 3vw 2vh;
       width: 100%;
-      max-width: 1100px;
-      box-shadow: 0 6px 32px rgba(0,0,0,0.2);
+      flex: 1;
+      box-shadow: 0 0.5vh 3vh rgba(0,0,0,0.18);
       display: flex;
       flex-direction: column;
-      min-height: 430px;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .q-type-badge {
       display: inline-block;
       background: var(--primary);
       color: var(--white);
-      font-size: 0.82rem;
+      font-size: 1.4vh;
       font-weight: 700;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.04em;
       border-radius: 99px;
-      padding: 0.3rem 1rem;
-      margin-bottom: 1rem;
+      padding: 0.35vh 1.2vw;
+      margin-bottom: 0.8vh;
       width: fit-content;
     }
 
     .q-number {
-      font-size: 1rem;
-      color: #777;
+      font-size: 1.5vh;
+      color: #888;
       font-weight: 600;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.4vh;
     }
 
     .q-text {
-      font-size: 1.5rem;
+      font-size: 2.4vh;
       font-weight: 700;
-      line-height: 1.45;
-      margin-bottom: 1.6rem;
+      line-height: 1.4;
+      margin-bottom: 1.6vh;
       color: var(--dark);
     }
 
-    /* MCQ */
+    /* ── MCQ ── */
     .options-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1vh;
       flex: 1;
     }
 
@@ -133,44 +123,44 @@
       width: 100%;
       text-align: left;
       background: var(--cream);
-      border: 2.5px solid transparent;
-      border-radius: 12px;
-      padding: 1rem 1.3rem;
+      border: 0.25vh solid transparent;
+      border-radius: 1vh;
+      padding: 1.2vh 1.5vw;
       font-family: 'Outfit', sans-serif;
-      font-size: 1.25rem;
+      font-size: 2vh;
       font-weight: 500;
       color: var(--dark);
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
-      line-height: 1.4;
+      line-height: 1.35;
     }
 
     .option-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--green-light); }
     .option-btn.correct { border-color: var(--primary-dark); background: var(--green-light); color: var(--primary-dark); font-weight: 700; }
     .option-btn.wrong   { border-color: var(--red); background: #fceef2; color: var(--red); }
 
-    /* Fill in blank */
+    /* ── Fill in blank ── */
     .blank-wrap {
       flex: 1;
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 1vw;
       flex-wrap: wrap;
-      font-size: 1.35rem;
+      font-size: 2.2vh;
       font-weight: 500;
-      line-height: 2.4;
+      line-height: 2.2;
     }
 
     .blank-input {
       border: none;
-      border-bottom: 3.5px solid var(--primary);
+      border-bottom: 0.35vh solid var(--primary);
       background: transparent;
       font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
+      font-size: 2.2vh;
       font-weight: 700;
       color: var(--dark);
-      min-width: 180px;
-      padding: 0.1rem 0.3rem;
+      min-width: 12vw;
+      padding: 0.2vh 0.4vw;
       outline: none;
       text-align: center;
     }
@@ -178,24 +168,24 @@
     .blank-input.correct { border-color: var(--primary-dark); color: var(--primary-dark); }
     .blank-input.wrong   { border-color: var(--red); color: var(--red); }
 
-    /* Arrange */
+    /* ── Arrange ── */
     .arrange-list {
       display: flex;
       flex-direction: column;
-      gap: 0.7rem;
+      gap: 0.9vh;
       flex: 1;
     }
 
     .arrange-item {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
+      gap: 1vw;
       background: var(--cream);
-      border: 2.5px solid #d5d5d5;
-      border-radius: 12px;
-      padding: 0.9rem 1.2rem;
+      border: 0.25vh solid #d5d5d5;
+      border-radius: 1vh;
+      padding: 1.1vh 1.5vw;
       cursor: grab;
-      font-size: 1.25rem;
+      font-size: 2vh;
       font-weight: 500;
       user-select: none;
       transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
@@ -203,52 +193,65 @@
 
     .arrange-item:active   { cursor: grabbing; }
     .arrange-item.dragging { opacity: 0.35; }
-    .arrange-item.drag-over   { border-color: var(--primary); background: var(--green-light); box-shadow: 0 2px 10px rgba(119,167,102,0.3); }
+    .arrange-item.drag-over   { border-color: var(--primary); background: var(--green-light); }
     .arrange-item.correct-pos { border-color: var(--primary-dark); background: var(--green-light); color: var(--primary-dark); font-weight: 700; }
     .arrange-item.wrong-pos   { border-color: var(--red); background: #fceef2; color: var(--red); }
 
-    .drag-handle { color: #bbb; font-size: 1.3rem; }
+    .drag-handle { color: #bbb; font-size: 2vh; }
 
     .step-num {
       background: var(--primary);
       color: var(--white);
       border-radius: 50%;
-      width: 34px; height: 34px;
+      width: 3.2vh; height: 3.2vh;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.95rem; font-weight: 700; flex-shrink: 0;
+      font-size: 1.4vh; font-weight: 700; flex-shrink: 0;
     }
 
-    /* Feedback */
-    .feedback {
-      margin-top: 1rem;
-      padding: 0.9rem 1.2rem;
-      border-radius: 12px;
-      font-size: 1.15rem;
+    /* ── Floating feedback toast ── */
+    .feedback-toast {
+      position: fixed;
+      bottom: 8vh;
+      left: 3vw;
+      right: 3vw;
+      padding: 1.2vh 2vw;
+      border-radius: 1.2vh;
+      font-size: 1.9vh;
       font-weight: 600;
-      display: none;
+      box-shadow: 0 0.8vh 2.5vh rgba(0,0,0,0.18);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(1vh);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 100;
     }
 
-    .feedback.show        { display: block; }
-    .feedback.correct-fb  { background: var(--green-light); color: var(--primary-dark); border-left: 5px solid var(--primary); }
-    .feedback.wrong-fb    { background: #fceef2; color: var(--red); border-left: 5px solid var(--red); }
+    .feedback-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
 
-    /* Nav */
+    .feedback-toast.correct-fb { background: var(--green-light); color: var(--primary-dark); border-left: 0.5vh solid var(--primary); }
+    .feedback-toast.wrong-fb   { background: #fceef2; color: var(--red); border-left: 0.5vh solid var(--red); }
+
+    /* ── Nav ── */
     .nav-row {
       width: 100%;
-      max-width: 1100px;
+      flex-shrink: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 0 0;
+      padding: 1.5vh 0 0;
     }
 
     .btn {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.9vh;
       font-weight: 700;
       border: none;
-      border-radius: 12px;
-      padding: 0.9rem 2.2rem;
+      border-radius: 1vh;
+      padding: 1.1vh 2.5vw;
       cursor: pointer;
       transition: opacity 0.15s, transform 0.1s;
     }
@@ -256,44 +259,49 @@
     .btn:active   { transform: scale(0.97); }
     .btn:disabled { opacity: 0.3; cursor: default; }
 
-    .btn-outline { background: transparent; border: 2.5px solid var(--primary); color: var(--primary); }
+    .btn-outline { background: transparent; border: 0.25vh solid var(--primary); color: var(--primary); }
     .btn-check   { background: var(--yellow); color: var(--dark); }
     .btn-next    { background: var(--primary); color: var(--white); }
     .btn-primary { background: var(--primary); color: var(--white); }
     .btn-results { background: var(--yellow); color: var(--dark); }
 
-    /* Score */
+    /* ── Score screen ── */
     .score-screen {
       background: var(--white);
-      border-radius: 20px;
-      padding: 3.5rem 2.5rem;
+      border-radius: 1.5vh;
+      padding: 3vh 4vw;
       width: 100%;
-      max-width: 1100px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0.5vh 3vh rgba(0,0,0,0.18);
       text-align: center;
-      box-shadow: 0 6px 32px rgba(0,0,0,0.2);
     }
 
     .score-circle {
-      width: 150px; height: 150px;
+      width: 14vh; height: 14vh;
       border-radius: 50%;
       background: var(--primary);
       color: var(--white);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      margin: 0 auto 1.8rem;
+      margin-bottom: 2vh;
     }
 
-    .score-num   { font-size: 2.8rem; font-weight: 700; line-height: 1; }
-    .score-label { font-size: 0.9rem; opacity: 0.85; margin-top: 0.25rem; }
-    .score-msg   { font-size: 1.7rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .score-sub   { font-size: 1.15rem; color: #666; margin-bottom: 2.2rem; }
+    .score-num   { font-size: 4.5vh; font-weight: 700; line-height: 1; }
+    .score-label { font-size: 1.4vh; opacity: 0.85; margin-top: 0.3vh; }
+    .score-msg   { font-size: 3vh; font-weight: 700; margin-bottom: 0.8vh; }
+    .score-sub   { font-size: 1.9vh; color: #666; margin-bottom: 2.5vh; }
 
+    /* ── Footer ── */
     footer {
-      width: 100%;
+      flex-shrink: 0;
       text-align: center;
-      padding: 1rem 0 0.8rem;
-      font-size: 0.88rem;
-      color: rgba(0,0,0,0.35);
+      padding: 0.8vh 0 0.4vh;
+      font-size: 1.3vh;
+      color: rgba(0,0,0,0.3);
     }
 
     .hidden { display: none !important; }
@@ -302,15 +310,14 @@
 <body>
 <div class="shell">
 
-  <div style="width:100%;max-width:1100px;">
-    <div class="progress-wrap">
-      <div class="progress-meta">
-        <span id="progress-label">Question 1 of 6</span>
-        <span id="progress-pct">0%</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-      </div>
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="progress-label">Question 1 of 6</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
     </div>
   </div>
 
@@ -325,7 +332,6 @@
       <li><button class="option-btn" onclick="selectMCQ(this,'q1',false)">A shape used in a flowchart</button></li>
       <li><button class="option-btn" onclick="selectMCQ(this,'q1',false)">A type of block in block-based coding</button></li>
     </ul>
-    <div class="feedback" id="fb-q1"></div>
   </div>
 
   <!-- Q2 -->
@@ -339,7 +345,6 @@
       <li><button class="option-btn" onclick="selectMCQ(this,'q2',true)">The computer will produce the wrong result</button></li>
       <li><button class="option-btn" onclick="selectMCQ(this,'q2',false)">The computer will ask for new instructions</button></li>
     </ul>
-    <div class="feedback" id="fb-q2"></div>
   </div>
 
   <!-- Q3 Arrange -->
@@ -353,7 +358,6 @@
       <div class="arrange-item" draggable="true" data-id="a3-3"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Open the email app</span></div>
       <div class="arrange-item" draggable="true" data-id="a3-4"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Enter the recipient's address</span></div>
     </div>
-    <div class="feedback" id="fb-q3"></div>
   </div>
 
   <!-- Q4 Fill in blank -->
@@ -366,7 +370,6 @@
       <input class="blank-input" id="blank-q4" type="text" placeholder="________" autocomplete="off">
       <span>or end of an algorithm.</span>
     </div>
-    <div class="feedback" id="fb-q4"></div>
   </div>
 
   <!-- Q5 -->
@@ -380,7 +383,6 @@
       <li><button class="option-btn" onclick="selectMCQ(this,'q5',true)">Steps are guessed by the computer</button></li>
       <li><button class="option-btn" onclick="selectMCQ(this,'q5',false)">The algorithm stops after the task is finished</button></li>
     </ul>
-    <div class="feedback" id="fb-q5"></div>
   </div>
 
   <!-- Q6 Arrange -->
@@ -394,7 +396,6 @@
       <div class="arrange-item" draggable="true" data-id="a6-3"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Open the school website</span></div>
       <div class="arrange-item" draggable="true" data-id="a6-4"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Enter the password</span></div>
     </div>
-    <div class="feedback" id="fb-q6"></div>
   </div>
 
   <!-- Score -->
@@ -419,6 +420,9 @@
   <footer>©CuriousEd.ai</footer>
 </div>
 
+<!-- Floating feedback toast -->
+<div class="feedback-toast" id="feedback-toast"></div>
+
 <script>
   const TOTAL = 6;
   let current = 1, answered = {}, scores = {}, dragSrc = null;
@@ -429,6 +433,16 @@
     q6: ['a6-3','a6-1','a6-4','a6-2']
   };
   const mcqOnly = [1,2,5];
+
+  function showToast(msg, type) {
+    const t = document.getElementById('feedback-toast');
+    t.textContent = msg;
+    t.className = 'feedback-toast show ' + type;
+  }
+
+  function hideToast() {
+    document.getElementById('feedback-toast').className = 'feedback-toast';
+  }
 
   function updateProgress() {
     const pct = Math.round(((current - 1) / TOTAL) * 100);
@@ -443,11 +457,16 @@
     document.getElementById('score-screen').classList.add('hidden');
     document.getElementById('q'+n).classList.remove('hidden');
     document.getElementById('nav-row').classList.remove('hidden');
+    hideToast();
     const isLast = n === TOTAL;
     if (answered[n] !== undefined) {
       document.getElementById('btn-check').classList.add('hidden');
       document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
       document.getElementById('btn-results').classList[isLast ? 'remove' : 'add']('hidden');
+      showToast(
+        answered[n] ? '✓ Correct!' : '✗ Not quite. Review this concept before moving on.',
+        answered[n] ? 'correct-fb' : 'wrong-fb'
+      );
     } else {
       document.getElementById('btn-next').classList.add('hidden');
       document.getElementById('btn-results').classList.add('hidden');
@@ -463,10 +482,8 @@
     if (answered[qid] !== undefined) return;
     btn.closest('ul').querySelectorAll('.option-btn').forEach(b => b.disabled = true);
     answered[qid] = ok; scores[qid] = ok ? 1 : 0;
-    const fb = document.getElementById('fb-'+qid);
     btn.classList.add(ok ? 'correct' : 'wrong');
-    fb.textContent = ok ? '✓ Correct!' : '✗ Not quite. Review this concept before moving on.';
-    fb.className = 'feedback show ' + (ok ? 'correct-fb' : 'wrong-fb');
+    showToast(ok ? '✓ Correct!' : '✗ Not quite. Review this concept before moving on.', ok ? 'correct-fb' : 'wrong-fb');
     document.getElementById('btn-check').classList.add('hidden');
     const isLast = current === TOTAL;
     document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
@@ -479,9 +496,10 @@
     input.disabled = true; answered[qid] = ok; scores[qid] = ok ? 1 : 0;
     input.classList.add(ok ? 'correct' : 'wrong');
     const ans = correctBlanks[qid][0];
-    const fb = document.getElementById('fb-'+qid);
-    fb.textContent = ok ? '✓ Correct!' : `✗ Not quite. The correct answer is "${ans.charAt(0).toUpperCase()+ans.slice(1)}".`;
-    fb.className = 'feedback show ' + (ok ? 'correct-fb' : 'wrong-fb');
+    showToast(
+      ok ? '✓ Correct!' : `✗ Not quite. The correct answer is "${ans.charAt(0).toUpperCase()+ans.slice(1)}".`,
+      ok ? 'correct-fb' : 'wrong-fb'
+    );
     document.getElementById('btn-check').classList.add('hidden');
     const isLast = current === TOTAL;
     document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
@@ -523,9 +541,10 @@
       item.draggable = false;
       item.classList.add(item.dataset.id === correctArrange[qid][idx] ? 'correct-pos' : 'wrong-pos');
     });
-    const fb = document.getElementById('fb-'+qid);
-    fb.textContent = ok ? '✓ Correct! The steps are in the right order.' : '✗ Not quite. The correct positions have been highlighted — review before moving on.';
-    fb.className = 'feedback show ' + (ok ? 'correct-fb' : 'wrong-fb');
+    showToast(
+      ok ? '✓ Correct! The steps are in the right order.' : '✗ Not quite. The correct positions have been highlighted.',
+      ok ? 'correct-fb' : 'wrong-fb'
+    );
     document.getElementById('btn-check').classList.add('hidden');
     const isLast = current === TOTAL;
     document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
@@ -542,6 +561,7 @@
     for (let i = 1; i <= TOTAL; i++) document.getElementById('q'+i).classList.add('hidden');
     document.getElementById('nav-row').classList.add('hidden');
     document.getElementById('score-screen').classList.remove('hidden');
+    hideToast();
     document.getElementById('progress-fill').style.width = '100%';
     document.getElementById('progress-pct').textContent = '100%';
     document.getElementById('progress-label').textContent = 'Complete!';
@@ -553,11 +573,6 @@
       : ['Keep going!','Review the lesson and give it another try.'];
     document.getElementById('score-msg').textContent = msg;
     document.getElementById('score-sub').textContent = sub;
-  }
-
-  function resetFb(qid) {
-    const fb = document.getElementById('fb-'+qid);
-    if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
   }
 
   function resetArrange(qid, items) {
@@ -582,17 +597,15 @@
 
   function restartQuiz() {
     current = 1; answered = {}; scores = {}; dragSrc = null;
+    hideToast();
     document.getElementById('btn-results').classList.add('hidden');
     [1,2,5].forEach(n => {
       document.getElementById('q'+n).querySelectorAll('.option-btn').forEach(b => { b.classList.remove('correct','wrong'); b.disabled = false; });
-      resetFb('q'+n);
     });
     const inp = document.getElementById('blank-q4');
-    inp.value = ''; inp.disabled = false; inp.classList.remove('correct','wrong'); resetFb('q4');
+    inp.value = ''; inp.disabled = false; inp.classList.remove('correct','wrong');
     resetArrange('q3',[{id:'a3-1',text:'Type the message'},{id:'a3-2',text:'Click send'},{id:'a3-3',text:'Open the email app'},{id:'a3-4',text:"Enter the recipient's address"}]);
-    resetFb('q3');
     resetArrange('q6',[{id:'a6-1',text:'Type the username'},{id:'a6-2',text:'Click the login button'},{id:'a6-3',text:'Open the school website'},{id:'a6-4',text:'Enter the password'}]);
-    resetFb('q6');
     showCard(1);
   }
 
