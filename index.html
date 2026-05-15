@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Quick check — Introduction to coding and algorithm</title>
+  <style>
+    :root {
+      --primary:      #77a766;
+      --primary-dark: #4e7a3e;
+      --yellow:       #e8d227;
+      --cream:        #f2f1e8;
+      --white:        #f9f9fa;
+      --dark:         #232323;
+      --red:          #b83f5c;
+      --green-light:  #ddefd3;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #2e5c20;
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .shell {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 2.5rem 0;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 1.2rem;
+    }
+
+    .top-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .progress-wrap {
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 1.4rem;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--yellow);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    /* Card */
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.4rem 2.8rem 2rem;
+      width: 100%;
+      max-width: 1100px;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      min-height: 430px;
+    }
+
+    .q-type-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      border-radius: 99px;
+      padding: 0.3rem 1rem;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+
+    .q-number {
+      font-size: 1rem;
+      color: #777;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .q-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 1.6rem;
+      color: var(--dark);
+    }
+
+    /* MCQ */
+    .options-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      flex: 1;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--cream);
+      border: 2.5px solid transparent;
+      border-radius: 12px;
+      padding: 1rem 1.3rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--dark);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.4;
+    }
+
+    .option-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--green-light); }
+    .option-btn.correct { border-color: var(--primary-dark); background: var(--green-light); color: var(--primary-dark); font-weight: 700; }
+    .option-btn.wrong   { border-color: var(--red); background: #fceef2; color: var(--red); }
+
+    /* Fill in blank */
+    .blank-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      font-size: 1.35rem;
+      font-weight: 500;
+      line-height: 2.4;
+    }
+
+    .blank-input {
+      border: none;
+      border-bottom: 3.5px solid var(--primary);
+      background: transparent;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--dark);
+      min-width: 180px;
+      padding: 0.1rem 0.3rem;
+      outline: none;
+      text-align: center;
+    }
+
+    .blank-input.correct { border-color: var(--primary-dark); color: var(--primary-dark); }
+    .blank-input.wrong   { border-color: var(--red); color: var(--red); }
+
+    /* Arrange */
+    .arrange-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      flex: 1;
+    }
+
+    .arrange-item {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      background: var(--cream);
+      border: 2.5px solid #d5d5d5;
+      border-radius: 12px;
+      padding: 0.9rem 1.2rem;
+      cursor: grab;
+      font-size: 1.25rem;
+      font-weight: 500;
+      user-select: none;
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    }
+
+    .arrange-item:active   { cursor: grabbing; }
+    .arrange-item.dragging { opacity: 0.35; }
+    .arrange-item.drag-over   { border-color: var(--primary); background: var(--green-light); box-shadow: 0 2px 10px rgba(119,167,102,0.3); }
+    .arrange-item.correct-pos { border-color: var(--primary-dark); background: var(--green-light); color: var(--primary-dark); font-weight: 700; }
+    .arrange-item.wrong-pos   { border-color: var(--red); background: #fceef2; color: var(--red); }
+
+    .drag-handle { color: #bbb; font-size: 1.3rem; }
+
+    .step-num {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* Feedback */
+    .feedback {
+      margin-top: 1rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: 12px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .feedback.show        { display: block; }
+    .feedback.correct-fb  { background: var(--green-light); color: var(--primary-dark); border-left: 5px solid var(--primary); }
+    .feedback.wrong-fb    { background: #fceef2; color: var(--red); border-left: 5px solid var(--red); }
+
+    /* Nav */
+    .nav-row {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0 0;
+    }
+
+    .btn {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      padding: 0.9rem 2.2rem;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .btn:active   { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.3; cursor: default; }
+
+    .btn-outline { background: transparent; border: 2.5px solid rgba(255,255,255,0.7); color: var(--white); }
+    .btn-check   { background: var(--yellow); color: var(--dark); }
+    .btn-next    { background: var(--primary); color: var(--white); }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-results { background: var(--yellow); color: var(--dark); }
+
+    /* Score */
+    .score-screen {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 3.5rem 2.5rem;
+      width: 100%;
+      max-width: 1100px;
+      text-align: center;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.2);
+    }
+
+    .score-circle {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 0 auto 1.8rem;
+    }
+
+    .score-num   { font-size: 2.8rem; font-weight: 700; line-height: 1; }
+    .score-label { font-size: 0.9rem; opacity: 0.85; margin-top: 0.25rem; }
+    .score-msg   { font-size: 1.7rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .score-sub   { font-size: 1.15rem; color: #666; margin-bottom: 2.2rem; }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 1rem 0 0.8rem;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <div style="width:100%;max-width:1100px;">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="progress-label">Question 1 of 6</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="card" id="q1">
+    <span class="q-type-badge">Choose the right option</span>
+    <p class="q-number">Question 1 of 6</p>
+    <p class="q-text">Which of the following best describes an algorithm?</p>
+    <ul class="options-list">
+      <li><button class="option-btn" onclick="selectMCQ(this,'q1',false)">A program that fixes errors in code</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q1',true)">A step-by-step set of instructions to solve a problem</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q1',false)">A shape used in a flowchart</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q1',false)">A type of block in block-based coding</button></li>
+    </ul>
+    <div class="feedback" id="fb-q1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="card hidden" id="q2">
+    <span class="q-type-badge">Choose the right option</span>
+    <p class="q-number">Question 2 of 6</p>
+    <p class="q-text">What happens if instructions given to a computer are in the wrong order?</p>
+    <ul class="options-list">
+      <li><button class="option-btn" onclick="selectMCQ(this,'q2',false)">The computer will correct them automatically</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q2',false)">The computer will skip the wrong steps</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q2',true)">The computer will produce the wrong result</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q2',false)">The computer will ask for new instructions</button></li>
+    </ul>
+    <div class="feedback" id="fb-q2"></div>
+  </div>
+
+  <!-- Q3 Arrange -->
+  <div class="card hidden" id="q3">
+    <span class="q-type-badge">Arrange in the correct order</span>
+    <p class="q-number">Question 3 of 6</p>
+    <p class="q-text">Drag to arrange these steps for sending an email in the correct sequence.</p>
+    <div class="arrange-list" id="arrange-q3">
+      <div class="arrange-item" draggable="true" data-id="a3-1"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Type the message</span></div>
+      <div class="arrange-item" draggable="true" data-id="a3-2"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Click send</span></div>
+      <div class="arrange-item" draggable="true" data-id="a3-3"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Open the email app</span></div>
+      <div class="arrange-item" draggable="true" data-id="a3-4"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Enter the recipient's address</span></div>
+    </div>
+    <div class="feedback" id="fb-q3"></div>
+  </div>
+
+  <!-- Q4 Fill in blank -->
+  <div class="card hidden" id="q4">
+    <span class="q-type-badge">Fill in the blank</span>
+    <p class="q-number">Question 4 of 6</p>
+    <p class="q-text">Complete the sentence below.</p>
+    <div class="blank-wrap">
+      <span>In a flowchart, an oval shape represents the</span>
+      <input class="blank-input" id="blank-q4" type="text" placeholder="________" autocomplete="off">
+      <span>or end of an algorithm.</span>
+    </div>
+    <div class="feedback" id="fb-q4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="card hidden" id="q5">
+    <span class="q-type-badge">Choose the right option</span>
+    <p class="q-number">Question 5 of 6</p>
+    <p class="q-text">Which of the following is NOT a quality of a good algorithm?</p>
+    <ul class="options-list">
+      <li><button class="option-btn" onclick="selectMCQ(this,'q5',false)">Steps are clear</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q5',false)">Steps are in the correct sequence</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q5',true)">Steps are guessed by the computer</button></li>
+      <li><button class="option-btn" onclick="selectMCQ(this,'q5',false)">The algorithm stops after the task is finished</button></li>
+    </ul>
+    <div class="feedback" id="fb-q5"></div>
+  </div>
+
+  <!-- Q6 Arrange -->
+  <div class="card hidden" id="q6">
+    <span class="q-type-badge">Arrange in the correct order</span>
+    <p class="q-number">Question 6 of 6</p>
+    <p class="q-text">Drag to arrange these steps for logging into a school account in the correct sequence.</p>
+    <div class="arrange-list" id="arrange-q6">
+      <div class="arrange-item" draggable="true" data-id="a6-1"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Type the username</span></div>
+      <div class="arrange-item" draggable="true" data-id="a6-2"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Click the login button</span></div>
+      <div class="arrange-item" draggable="true" data-id="a6-3"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Open the school website</span></div>
+      <div class="arrange-item" draggable="true" data-id="a6-4"><span class="drag-handle">⠿</span><span class="step-num">?</span><span>Enter the password</span></div>
+    </div>
+    <div class="feedback" id="fb-q6"></div>
+  </div>
+
+  <!-- Score -->
+  <div class="score-screen hidden" id="score-screen">
+    <div class="score-circle">
+      <span class="score-num" id="score-num">0/6</span>
+      <span class="score-label">score</span>
+    </div>
+    <p class="score-msg" id="score-msg"></p>
+    <p class="score-sub" id="score-sub"></p>
+    <button class="btn btn-primary" onclick="restartQuiz()">Try again</button>
+  </div>
+
+  <!-- Nav -->
+  <div class="nav-row" id="nav-row">
+    <button class="btn btn-outline" id="btn-prev" onclick="prevQ()" disabled>← Back</button>
+    <button class="btn btn-check"   id="btn-check" onclick="checkAnswer()">Check answer</button>
+    <button class="btn btn-next hidden" id="btn-next" onclick="nextQ()">Next →</button>
+    <button class="btn btn-results hidden" id="btn-results" onclick="showScore()">See results</button>
+  </div>
+
+  <footer>©CuriousEd.ai</footer>
+</div>
+
+<script>
+  const TOTAL = 6;
+  let current = 1, answered = {}, scores = {}, dragSrc = null;
+
+  const correctBlanks  = { q4: ['start'] };
+  const correctArrange = {
+    q3: ['a3-3','a3-4','a3-1','a3-2'],
+    q6: ['a6-3','a6-1','a6-4','a6-2']
+  };
+  const mcqOnly = [1,2,5];
+
+  function updateProgress() {
+    const pct = Math.round(((current - 1) / TOTAL) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = `Question ${current} of ${TOTAL}`;
+    document.getElementById('progress-pct').textContent = pct + '%';
+    document.getElementById('btn-prev').disabled = current === 1;
+  }
+
+  function showCard(n) {
+    for (let i = 1; i <= TOTAL; i++) document.getElementById('q'+i).classList.add('hidden');
+    document.getElementById('score-screen').classList.add('hidden');
+    document.getElementById('q'+n).classList.remove('hidden');
+    document.getElementById('nav-row').classList.remove('hidden');
+    const isLast = n === TOTAL;
+    if (answered[n] !== undefined) {
+      document.getElementById('btn-check').classList.add('hidden');
+      document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
+      document.getElementById('btn-results').classList[isLast ? 'remove' : 'add']('hidden');
+    } else {
+      document.getElementById('btn-next').classList.add('hidden');
+      document.getElementById('btn-results').classList.add('hidden');
+      document.getElementById('btn-check').classList[mcqOnly.includes(n) ? 'add' : 'remove']('hidden');
+    }
+    updateProgress();
+  }
+
+  function nextQ() { current < TOTAL ? showCard(++current) : showScore(); }
+  function prevQ() { if (current > 1) showCard(--current); }
+
+  function selectMCQ(btn, qid, ok) {
+    if (answered[qid] !== undefined) return;
+    btn.closest('ul').querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+    answered[qid] = ok; scores[qid] = ok ? 1 : 0;
+    const fb = document.getElementById('fb-'+qid);
+    btn.classList.add(ok ? 'correct' : 'wrong');
+    fb.textContent = ok ? '✓ Correct!' : '✗ Not quite. Review this concept before moving on.';
+    fb.className = 'feedback show ' + (ok ? 'correct-fb' : 'wrong-fb');
+    document.getElementById('btn-check').classList.add('hidden');
+    const isLast = current === TOTAL;
+    document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
+    document.getElementById('btn-results').classList[isLast ? 'remove' : 'add']('hidden');
+  }
+
+  function checkBlank(qid) {
+    const input = document.getElementById('blank-'+qid);
+    const ok = correctBlanks[qid].includes(input.value.trim().toLowerCase());
+    input.disabled = true; answered[qid] = ok; scores[qid] = ok ? 1 : 0;
+    input.classList.add(ok ? 'correct' : 'wrong');
+    const ans = correctBlanks[qid][0];
+    const fb = document.getElementById('fb-'+qid);
+    fb.textContent = ok ? '✓ Correct!' : `✗ Not quite. The correct answer is "${ans.charAt(0).toUpperCase()+ans.slice(1)}".`;
+    fb.className = 'feedback show ' + (ok ? 'correct-fb' : 'wrong-fb');
+    document.getElementById('btn-check').classList.add('hidden');
+    const isLast = current === TOTAL;
+    document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
+    document.getElementById('btn-results').classList[isLast ? 'remove' : 'add']('hidden');
+  }
+
+  function initDrag(listId) {
+    const list = document.getElementById(listId);
+    const getItems = () => list.querySelectorAll('.arrange-item');
+    getItems().forEach(item => {
+      item.addEventListener('dragstart', e => { dragSrc = item; item.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+      item.addEventListener('dragend',   () => { dragSrc = null; getItems().forEach(i => i.classList.remove('dragging','drag-over')); });
+      item.addEventListener('dragover',  e => { e.preventDefault(); if (item !== dragSrc) item.classList.add('drag-over'); });
+      item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+      item.addEventListener('drop', e => {
+        e.preventDefault();
+        if (dragSrc && dragSrc !== item) {
+          const all = [...list.querySelectorAll('.arrange-item')];
+          all.indexOf(dragSrc) < all.indexOf(item) ? list.insertBefore(dragSrc, item.nextSibling) : list.insertBefore(dragSrc, item);
+        }
+        getItems().forEach(i => i.classList.remove('drag-over'));
+        updateStepNums(listId);
+      });
+    });
+  }
+
+  function updateStepNums(listId) {
+    document.getElementById(listId).querySelectorAll('.arrange-item').forEach((item, idx) => {
+      item.querySelector('.step-num').textContent = idx + 1;
+    });
+  }
+
+  function checkArrange(qid) {
+    const listId = 'arrange-'+qid;
+    const items  = [...document.getElementById(listId).querySelectorAll('.arrange-item')];
+    const ok     = JSON.stringify(items.map(i => i.dataset.id)) === JSON.stringify(correctArrange[qid]);
+    answered[qid] = ok; scores[qid] = ok ? 1 : 0;
+    items.forEach((item, idx) => {
+      item.draggable = false;
+      item.classList.add(item.dataset.id === correctArrange[qid][idx] ? 'correct-pos' : 'wrong-pos');
+    });
+    const fb = document.getElementById('fb-'+qid);
+    fb.textContent = ok ? '✓ Correct! The steps are in the right order.' : '✗ Not quite. The correct positions have been highlighted — review before moving on.';
+    fb.className = 'feedback show ' + (ok ? 'correct-fb' : 'wrong-fb');
+    document.getElementById('btn-check').classList.add('hidden');
+    const isLast = current === TOTAL;
+    document.getElementById('btn-next').classList[isLast ? 'add' : 'remove']('hidden');
+    document.getElementById('btn-results').classList[isLast ? 'remove' : 'add']('hidden');
+  }
+
+  function checkAnswer() {
+    if (current === 3) checkArrange('q3');
+    else if (current === 4) checkBlank('q4');
+    else if (current === 6) checkArrange('q6');
+  }
+
+  function showScore() {
+    for (let i = 1; i <= TOTAL; i++) document.getElementById('q'+i).classList.add('hidden');
+    document.getElementById('nav-row').classList.add('hidden');
+    document.getElementById('score-screen').classList.remove('hidden');
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('progress-pct').textContent = '100%';
+    document.getElementById('progress-label').textContent = 'Complete!';
+    const total = Object.values(scores).reduce((a,b) => a+b, 0);
+    document.getElementById('score-num').textContent = total + '/6';
+    const [msg, sub] = total === 6 ? ['Perfect score!','Excellent — all concepts mastered.']
+      : total >= 4 ? ['Well done!','Great understanding. Review any missed questions.']
+      : total >= 3 ? ['Good effort!','Keep practising — re-read the key concepts and try again.']
+      : ['Keep going!','Review the lesson and give it another try.'];
+    document.getElementById('score-msg').textContent = msg;
+    document.getElementById('score-sub').textContent = sub;
+  }
+
+  function resetFb(qid) {
+    const fb = document.getElementById('fb-'+qid);
+    if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
+  }
+
+  function resetArrange(qid, items) {
+    const list = document.getElementById('arrange-'+qid);
+    list.innerHTML = '';
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'arrange-item'; div.draggable = true; div.dataset.id = item.id;
+      div.innerHTML = `<span class="drag-handle">⠿</span><span class="step-num">?</span><span>${item.text}</span>`;
+      list.appendChild(div);
+    });
+    initDrag('arrange-'+qid);
+    shuffleList('arrange-'+qid);
+  }
+
+  function shuffleList(listId) {
+    const list = document.getElementById(listId);
+    const items = [...list.querySelectorAll('.arrange-item')];
+    for (let i = items.length - 1; i > 0; i--) list.appendChild(items[Math.floor(Math.random()*(i+1))]);
+    updateStepNums(listId);
+  }
+
+  function restartQuiz() {
+    current = 1; answered = {}; scores = {}; dragSrc = null;
+    document.getElementById('btn-results').classList.add('hidden');
+    [1,2,5].forEach(n => {
+      document.getElementById('q'+n).querySelectorAll('.option-btn').forEach(b => { b.classList.remove('correct','wrong'); b.disabled = false; });
+      resetFb('q'+n);
+    });
+    const inp = document.getElementById('blank-q4');
+    inp.value = ''; inp.disabled = false; inp.classList.remove('correct','wrong'); resetFb('q4');
+    resetArrange('q3',[{id:'a3-1',text:'Type the message'},{id:'a3-2',text:'Click send'},{id:'a3-3',text:'Open the email app'},{id:'a3-4',text:"Enter the recipient's address"}]);
+    resetFb('q3');
+    resetArrange('q6',[{id:'a6-1',text:'Type the username'},{id:'a6-2',text:'Click the login button'},{id:'a6-3',text:'Open the school website'},{id:'a6-4',text:'Enter the password'}]);
+    resetFb('q6');
+    showCard(1);
+  }
+
+  initDrag('arrange-q3'); shuffleList('arrange-q3');
+  initDrag('arrange-q6'); shuffleList('arrange-q6');
+  showCard(1);
+</script>
+</body>
+</html>
